@@ -1,0 +1,278 @@
+@use '../../../styles/variables' as v;
+
+/* =====================
+   Círculos de Resplandor
+   ===================== */
+.top-left {
+  top: 25%;
+  left: 25%;
+  width: 24rem;
+  height: 24rem;
+}
+
+.bottom-right {
+  bottom: 25%;
+  right: 25%;
+  width: 24rem;
+  height: 24rem;
+  animation-duration: 4s;
+}
+
+/* =====================
+   Tarjeta Principal
+   ===================== */
+.login-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+  margin: 0 1rem;
+  border-radius: 1rem;
+  @include v.glassmorphism;
+  box-shadow: 0 0 50px rgba(168, 85, 247, 0.15);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.25);
+  }
+}
+
+/* =====================
+   Encabezado
+   ===================== */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .logo-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background: linear-gradient(to top right, v.$color-primary, v.$color-secondary);
+    color: white;
+    font-weight: 800;
+    font-size: 1.875rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    color: v.$text-secondary;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* =====================
+   Formulario
+   ===================== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Error Banner */
+.error-banner {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: v.$color-danger-bg;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fecaca;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  .icon-error {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    color: v.$color-danger-light;
+    margin-top: 0.125rem;
+  }
+}
+
+/* Campos del Formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: v.$text-muted;
+  }
+
+  .input-wrapper {
+    position: relative;
+
+    .input-icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      padding-left: 0.875rem;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      color: v.$text-secondary;
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid #1e293b;
+      border-radius: 0.75rem;
+      color: white;
+      transition: all 0.3s ease;
+      font-family: inherit;
+
+      &::placeholder {
+        color: #64748b;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: v.$color-primary-hover;
+        box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+      }
+
+      &.invalid {
+        border-color: v.$color-danger;
+      }
+    }
+  }
+
+  .validation-errors {
+    color: v.$color-danger-light;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+/* =====================
+   Botones
+   ===================== */
+button {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  border: none;
+  font-size: 1rem;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(to right, v.$color-primary, v.$color-secondary);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(to right, v.$color-primary-hover, v.$color-secondary-hover);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+  }
+
+  .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .icon-spin {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: white;
+      opacity: 0.75;
+    }
+  }
+}
+
+.btn-secondary {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #1e293b;
+  color: v.$text-muted;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
+  }
+}
+
+/* =====================
+   Credenciales de Prueba
+   ===================== */
+.test-credentials {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid v.$glass-border;
+
+  .test-title {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .test-grid {
+    display: flex;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  .test-card {
+    padding: 0.625rem;
+    border-radius: 0.5rem;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid v.$glass-border;
+    color: v.$text-secondary;
+
+    .test-role {
+      font-weight: 700;
+      color: v.$text-muted;
+    }
+
+    .code-primary {
+      color: #c084fc;
+    }
+  }
+}

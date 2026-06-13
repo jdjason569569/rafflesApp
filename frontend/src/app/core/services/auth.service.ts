@@ -3,17 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
-export interface User {
-  username: string;
-  role: 'admin' | 'guest';
-  token: string;
-}
-
-export interface LoginResponse {
-  statusCode: number;
-  message: string;
-  user: User;
-}
+import { User, LoginResponse } from '../models/auth.model';
+import { API_ENDPOINTS } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +28,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('http://localhost:3000/api/auth/login', {
+    return this.http.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, {
       username,
       password,
     }).pipe(

@@ -1,0 +1,122 @@
+/* Global SCSS Styles */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-sans: 'Outfit', sans-serif;
+  --bg-dark: #020617; /* slate-950 */
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8; /* slate-400 */
+  --text-muted: #cbd5e1; /* slate-300 */
+  
+  /* Primary Brand (Purple/Indigo) */
+  --color-primary: #9333ea; /* purple-600 */
+  --color-primary-hover: #a855f7; /* purple-500 */
+  --color-secondary: #4f46e5; /* indigo-600 */
+  --color-secondary-hover: #6366f1; /* indigo-500 */
+  
+  /* Danger */
+  --color-danger: #ef4444; /* red-500 */
+  --color-danger-light: #f87171; /* red-400 */
+  --color-danger-bg: rgba(239, 68, 68, 0.15);
+  
+  /* Admin */
+  --color-admin: #f87171; /* red-400 */
+  
+  /* Guest */
+  --color-guest: #34d399; /* emerald-400 */
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Global Utilities & Mixins --- */
+@mixin glassmorphism {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Keyframes --- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+/* Typography Utilities */
+.text-transparent-gradient {
+  background: linear-gradient(to right, #ffffff, #e9d5ff, #c7d2fe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Shared Classes */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.screen-container {
+  position: relative;
+  min-height: 100vh;
+  @include flex-center;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+/* Glow Effects */
+.glow-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  opacity: 0.3;
+}
+
+.glow-primary {
+  background: var(--color-primary);
+}
+
+.glow-secondary {
+  background: var(--color-secondary);
+}

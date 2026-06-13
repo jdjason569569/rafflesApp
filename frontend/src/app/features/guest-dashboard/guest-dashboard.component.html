@@ -1,0 +1,65 @@
+<div class="dashboard-layout">
+  <!-- Círculos de brillo de fondo -->
+  <div class="glow-circle glow-guest top-right"></div>
+  <div class="glow-circle glow-cyan bottom-left"></div>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="brand-logo guest">G</div>
+      <span class="brand-title">Guest Portal</span>
+    </div>
+    <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main class="dashboard-main">
+
+    <!-- Encabezado de bienvenida -->
+    <div class="welcome-header">
+      <p class="section-tag guest-tag">Modo Lectura Público</p>
+      <h1>Hola, {{ currentUser()?.username }} 👋</h1>
+      <p class="welcome-desc">
+        Tienes acceso limitado a los paneles de visualización del sistema. Algunas acciones están restringidas.
+      </p>
+    </div>
+
+    <!-- Rejilla de tarjetas de estado -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Rol Asignado</p>
+        <p class="stat-value guest-value">{{ currentUser()?.role }}</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Estado de Conexión</p>
+        <div class="status-row">
+          <span class="status-dot"></span>
+          <p class="stat-value active-value">Activo (Mock)</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Token de Sesión</p>
+        <p class="token-value">{{ currentUser()?.token }}</p>
+      </div>
+    </div>
+
+    <!-- Info Card de Visualización -->
+    <div class="action-section">
+      <h3 class="action-title guest-action-title">Paneles Informativos</h3>
+      <div class="info-card">
+        <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <div>
+          <p class="info-title">Acceso de Invitado Activo</p>
+          <p class="info-desc">
+            Puedes navegar por el sitio y ver sorteos activos, pero no tienes permisos para crear, editar o eliminar elementos de la base de datos. Si requieres más permisos, contacta al administrador.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>

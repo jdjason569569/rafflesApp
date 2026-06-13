@@ -1,0 +1,40 @@
+// ============================================
+// _variables.scss  –  Design Tokens & Mixins
+// ============================================
+
+// Background
+$bg-dark: #020617;  // slate-950
+
+// Text
+$text-primary:   #ffffff;
+$text-secondary: #94a3b8; // slate-400
+$text-muted:     #cbd5e1; // slate-300
+
+// Brand
+$color-primary:          #9333ea; // purple-600
+$color-primary-hover:    #a855f7; // purple-500
+$color-secondary:        #4f46e5; // indigo-600
+$color-secondary-hover:  #6366f1; // indigo-500
+
+// Danger
+$color-danger:     #ef4444;
+$color-danger-light: #f87171;
+$color-danger-bg:  rgba(239, 68, 68, 0.15);
+
+// Glassmorphism
+$glass-bg:     rgba(255, 255, 255, 0.05);
+$glass-border: rgba(255, 255, 255, 0.1);
+
+// Mixins
+@mixin glassmorphism {
+  background: $glass-bg;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid $glass-border;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

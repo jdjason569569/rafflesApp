@@ -1,0 +1,22 @@
+{
+  "LOGIN": {
+    "WELCOME": "Welcome",
+    "SUBTITLE": "Enter your credentials to access the platform",
+    "USERNAME": "Username",
+    "USERNAME_PLACEHOLDER": "admin_user or guest_user",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "••••••••",
+    "SUBMIT": "Sign In",
+    "LOADING": "Signing in...",
+    "GUEST_LOGIN": "Enter as Guest",
+    "ERRORS": {
+      "REQUIRED_USERNAME": "Username is required.",
+      "MINLENGTH_USERNAME": "Must be at least 4 characters.",
+      "REQUIRED_PASSWORD": "Password is required.",
+      "MINLENGTH_PASSWORD": "Must be at least 6 characters."
+    },
+    "TEST_CREDENTIALS": "Test Credentials",
+    "ADMIN": "Admin",
+    "GUEST": "Guest"
+  }
+}

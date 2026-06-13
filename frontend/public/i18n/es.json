@@ -1,0 +1,22 @@
+{
+  "LOGIN": {
+    "WELCOME": "Bienvenido",
+    "SUBTITLE": "Ingresa tus credenciales para acceder a la plataforma",
+    "USERNAME": "Nombre de usuario",
+    "USERNAME_PLACEHOLDER": "admin_user o guest_user",
+    "PASSWORD": "Contraseña",
+    "PASSWORD_PLACEHOLDER": "••••••••",
+    "SUBMIT": "Iniciar Sesión",
+    "LOADING": "Iniciando sesión...",
+    "GUEST_LOGIN": "Entrar como Invitado",
+    "ERRORS": {
+      "REQUIRED_USERNAME": "El nombre de usuario es obligatorio.",
+      "MINLENGTH_USERNAME": "Debe tener al menos 4 caracteres.",
+      "REQUIRED_PASSWORD": "La contraseña es obligatoria.",
+      "MINLENGTH_PASSWORD": "Debe tener al menos 6 caracteres."
+    },
+    "TEST_CREDENTIALS": "Credenciales de prueba",
+    "ADMIN": "Admin",
+    "GUEST": "Invitado"
+  }
+}

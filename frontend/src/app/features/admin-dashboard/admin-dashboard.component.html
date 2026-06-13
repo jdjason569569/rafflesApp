@@ -1,0 +1,64 @@
+<div class="dashboard-layout">
+  <!-- Círculos de brillo de fondo -->
+  <div class="glow-circle glow-admin top-right"></div>
+  <div class="glow-circle glow-primary bottom-left"></div>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="brand-logo admin">A</div>
+      <span class="brand-title">Admin Console</span>
+    </div>
+    <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main class="dashboard-main">
+
+    <!-- Encabezado de bienvenida -->
+    <div class="welcome-header">
+      <p class="section-tag admin-tag">Panel de Control Seguro</p>
+      <h1>Hola, {{ currentUser()?.username }} 👋</h1>
+      <p class="welcome-desc">
+        Tienes acceso total como Administrador. Desde aquí puedes configurar sorteos y gestionar usuarios.
+      </p>
+    </div>
+
+    <!-- Rejilla de tarjetas de estado -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Rol Asignado</p>
+        <p class="stat-value admin-value">{{ currentUser()?.role }}</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Estado de Conexión</p>
+        <div class="status-row">
+          <span class="status-dot animate-ping"></span>
+          <p class="stat-value active-value">Activo (Mock)</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Token de Sesión</p>
+        <p class="token-value">{{ currentUser()?.token }}</p>
+      </div>
+    </div>
+
+    <!-- Sección de Acciones -->
+    <div class="action-section">
+      <h3 class="action-title admin-action-title">Acciones Administrativas</h3>
+      <div class="action-grid">
+        <button class="action-btn">
+          <p class="action-btn-title">Crear Sorteo</p>
+          <p class="action-btn-desc">Generar nuevas rifas y configurar premios.</p>
+        </button>
+        <button class="action-btn">
+          <p class="action-btn-title">Ver Usuarios Registrados</p>
+          <p class="action-btn-desc">Lista completa de participantes e invitados.</p>
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>
