@@ -2,7 +2,7 @@ import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-import { SystemConfig, PackageOption } from '../models/config.model';
+import { SystemConfig, PackageOption, PreOrder, PreOrderBuyer } from '../models/config.model';
 import { API_ENDPOINTS } from '../constants/api.constants';
 import { AuthService } from './auth.service';
 
@@ -82,6 +82,35 @@ export class ConfigService {
     return this.http.post<SystemConfig>(API_ENDPOINTS.CONFIG.BUY, { quantity }).pipe(
       tap((updatedConfig) => {
         this._config.set(updatedConfig);
+      })
+    );
+  }
+
+  /**
+   * Crea una orden temporal pre-pago reservando números.
+   */
+  createPreOrder(buyer: PreOrderBuyer, quantity: number): Observable<PreOrder> {
+    return this.http.post<PreOrder>(API_ENDPOINTS.PURCHASES.PRE_ORDER, { buyer, quantity });
+  }
+
+  /**
+   * Confirma la orden de pre-pago (simula pago exitoso) y actualiza la configuración.
+   */
+  confirmPurchase(preOrderId: string): Observable<PreOrder> {
+    return this.http.post<PreOrder>(API_ENDPOINTS.PURCHASES.CONFIRM, { preOrderId }).pipe(
+      tap(() => {
+        this.loadConfig().subscribe();
+      })
+    );
+  }
+
+  /**
+   * Cancela la orden de pre-pago liberando los números reservados.
+   */
+  cancelPreOrder(preOrderId: string): Observable<PreOrder> {
+    return this.http.post<PreOrder>(API_ENDPOINTS.PURCHASES.CANCEL, { preOrderId }).pipe(
+      tap(() => {
+        this.loadConfig().subscribe();
       })
     );
   }

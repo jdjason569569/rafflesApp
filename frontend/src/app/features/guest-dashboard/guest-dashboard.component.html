@@ -87,32 +87,157 @@
         </div>
       }
 
-      <div class="packages-grid">
-        @for (pkg of packages(); track pkg.quantity) {
-          <div class="package-buy-card">
-            <div class="package-qty">{{ pkg.quantity }} {{ 'GUEST.NUMBERS' | translate }}</div>
-            <div class="package-price">{{ pkg.totalPrice | currency:pkg.currency:'symbol-narrow':'1.0-0' }}</div>
-            <p class="package-info-price">
-              {{ 'GUEST.EQUIVALENT' | translate:{ price: (pkg.pricePerNumber | currency:pkg.currency:'symbol-narrow':'1.0-0') } }}
-            </p>
-            <button 
-              class="btn-buy" 
-              (click)="buyPackage(pkg.quantity)"
-              [disabled]="isPurchasing() !== null"
-            >
-              @if (isPurchasing() === pkg.quantity) {
-                {{ 'GUEST.BUYING' | translate }}
+      <!-- PASO 1: Formulario de Datos del Comprador y Selección de Paquetes -->
+      @if (activeStep() === 'form') {
+        <div class="buyer-form-container">
+          <h4 class="form-section-title">{{ 'GUEST.FORM_TITLE' | translate }}</h4>
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="fullName">{{ 'GUEST.BUYER_NAME' | translate }} *</label>
+              <input 
+                id="fullName" 
+                type="text" 
+                [placeholder]="'GUEST.BUYER_NAME' | translate" 
+                [ngModel]="fullName()" 
+                (ngModelChange)="fullName.set($event)"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="email">{{ 'GUEST.BUYER_EMAIL' | translate }} *</label>
+              <input 
+                id="email" 
+                type="email" 
+                [placeholder]="'GUEST.BUYER_EMAIL' | translate" 
+                [ngModel]="email()" 
+                (ngModelChange)="email.set($event)"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="phone">{{ 'GUEST.BUYER_PHONE' | translate }} *</label>
+              <input 
+                id="phone" 
+                type="text" 
+                [placeholder]="'GUEST.BUYER_PHONE' | translate" 
+                [ngModel]="phone()" 
+                (ngModelChange)="phone.set($event)"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="packages-grid">
+          @for (pkg of packages(); track pkg.quantity) {
+            <div class="package-buy-card">
+              <div class="package-qty">{{ pkg.quantity }} {{ 'GUEST.NUMBERS' | translate }}</div>
+              <div class="package-price">{{ pkg.totalPrice | currency:pkg.currency:'symbol-narrow':'1.0-0' }}</div>
+              <p class="package-info-price">
+                {{ 'GUEST.EQUIVALENT' | translate:{ price: (pkg.pricePerNumber | currency:pkg.currency:'symbol-narrow':'1.0-0') } }}
+              </p>
+              <button 
+                class="btn-buy" 
+                (click)="generatePreOrder(pkg.quantity)"
+                [disabled]="isPurchasing() !== null"
+              >
+                @if (isPurchasing() === pkg.quantity) {
+                  {{ 'GUEST.BUYING' | translate }}
+                } @else {
+                  {{ 'GUEST.GENERATE_ORDER_BTN' | translate }}
+                }
+              </button>
+            </div>
+          } @empty {
+            <div class="empty-packages">
+              {{ 'GUEST.LOADING_PACKAGES' | translate }}
+            </div>
+          }
+        </div>
+      }
+
+      <!-- PASO 2: Visualización del Ticket Pre-pago Temporal -->
+      @if (activeStep() === 'ticket' && currentPreOrder()) {
+        <div class="ticket-preview-container">
+          <div class="ticket-header">
+            <h4 class="ticket-title">{{ 'GUEST.TICKET_TITLE' | translate }}</h4>
+            <p class="ticket-subtitle">{{ 'GUEST.TICKET_SUBTITLE' | translate }}</p>
+          </div>
+
+          <div class="ticket-body">
+            <!-- Bloque 1: Resumen del Comprador -->
+            <div class="ticket-section buyer-summary">
+              <div class="section-header">
+                <h5>{{ 'GUEST.TICKET_BUYER_SECTION' | translate }}</h5>
+                <button class="btn-edit" (click)="editData()">{{ 'GUEST.TICKET_EDIT_BTN' | translate }}</button>
+              </div>
+              <div class="buyer-details">
+                <p><strong>{{ 'GUEST.BUYER_NAME' | translate }}:</strong> {{ currentPreOrder()!.buyer.fullName }}</p>
+                <p><strong>{{ 'GUEST.BUYER_EMAIL' | translate }}:</strong> {{ currentPreOrder()!.buyer.email }}</p>
+                <p><strong>{{ 'GUEST.BUYER_PHONE' | translate }}:</strong> {{ currentPreOrder()!.buyer.phone }}</p>
+              </div>
+            </div>
+
+            <!-- Bloque 2: Detalle del Paquete -->
+            <div class="ticket-section package-summary">
+              <h5>{{ 'GUEST.TICKET_PACKAGE_SECTION' | translate }}</h5>
+              <div class="package-details-row">
+                <div>
+                  <span class="qty-badge">{{ currentPreOrder()!.package.quantity }} {{ 'GUEST.NUMBERS' | translate }}</span>
+                </div>
+                <div class="total-amount">
+                  {{ currentPreOrder()!.package.totalAmount | currency:currentPreOrder()!.package.currency:'symbol-narrow':'1.0-0' }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque 3: Grilla de Números Asignados -->
+            <div class="ticket-section numbers-summary">
+              <h5>{{ 'GUEST.TICKET_NUMBERS_SECTION' | translate }}</h5>
+              <div class="ticket-numbers-grid">
+                @for (num of currentPreOrder()!.assignedNumbers; track num) {
+                  <span class="ticket-number-tag">{{ num }}</span>
+                }
+              </div>
+            </div>
+
+            <!-- Bloque 4: Expiración -->
+            <div class="ticket-timer-bar" [class.expired]="isExpired()">
+              @if (!isExpired()) {
+                <span class="timer-text">{{ 'GUEST.TICKET_EXPIRATION' | translate }}: <strong>{{ timeRemaining() }}</strong></span>
               } @else {
-                {{ 'GUEST.BUY_BTN' | translate }}
+                <span class="timer-text expired">{{ 'GUEST.TICKET_EXPIRATION_EXPIRED' | translate }}</span>
+              }
+            </div>
+          </div>
+
+          <!-- Acciones del Ticket -->
+          <div class="ticket-actions">
+            <button 
+              class="btn-pay" 
+              (click)="payTicket()" 
+              [disabled]="isExpired() || isConfirming() || isCancelling()"
+            >
+              @if (isConfirming()) {
+                {{ 'GUEST.TICKET_PAYING' | translate }}
+              } @else {
+                {{ 'GUEST.TICKET_PAY_BTN' | translate }}
+              }
+            </button>
+            <button 
+              class="btn-cancel" 
+              (click)="cancelTicket()" 
+              [disabled]="isConfirming() || isCancelling()"
+            >
+              @if (isCancelling()) {
+                {{ 'GUEST.TICKET_CANCELLING' | translate }}
+              } @else {
+                {{ 'GUEST.TICKET_CANCEL_BTN' | translate }}
               }
             </button>
           </div>
-        } @empty {
-          <div class="empty-packages">
-            {{ 'GUEST.LOADING_PACKAGES' | translate }}
-          </div>
-        }
-      </div>
+        </div>
+      }
     </div>
 
     <!-- Info Card de Visualización -->

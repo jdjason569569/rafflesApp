@@ -15,3 +15,24 @@ export interface PackageOption {
   pricePerNumber: number;
   currency: string;
 }
+
+export interface PreOrderBuyer {
+  fullName: string;
+  email: string;
+  phone: string;
+}
+
+export interface PreOrder {
+  preOrderId: string;
+  expiresAt: string;
+  buyer: PreOrderBuyer;
+  package: {
+    type: string;
+    quantity: number;
+    totalAmount: number;
+    currency: string;
+  };
+  assignedNumbers: string[];
+  status: 'AWAITING_PAYMENT' | 'PAID' | 'CANCELLED' | 'EXPIRED';
+}
+
