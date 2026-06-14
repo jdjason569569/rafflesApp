@@ -7,9 +7,9 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <div class="brand-logo admin">A</div>
-      <span class="brand-title">Admin Console</span>
+      <span class="brand-title">{{ 'ADMIN.TITLE' | translate }}</span>
     </div>
-    <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    <button class="btn-logout" (click)="logout()">{{ 'ADMIN.LOGOUT' | translate }}</button>
   </nav>
 
   <!-- Contenido Principal -->
@@ -17,45 +17,113 @@
 
     <!-- Encabezado de bienvenida -->
     <div class="welcome-header">
-      <p class="section-tag admin-tag">Panel de Control Seguro</p>
-      <h1>Hola, {{ currentUser()?.username }} 👋</h1>
+      <p class="section-tag admin-tag">{{ 'ADMIN.TAG' | translate }}</p>
+      <h1>{{ 'LOGIN.WELCOME' | translate }}, {{ currentUser()?.username }} 👋</h1>
       <p class="welcome-desc">
-        Tienes acceso total como Administrador. Desde aquí puedes configurar sorteos y gestionar usuarios.
+        {{ 'ADMIN.SUBTITLE' | translate }}
       </p>
     </div>
 
     <!-- Rejilla de tarjetas de estado -->
     <div class="stats-grid">
       <div class="stat-card">
-        <p class="stat-label">Rol Asignado</p>
+        <p class="stat-label">{{ 'ADMIN.ROLE' | translate }}</p>
         <p class="stat-value admin-value">{{ currentUser()?.role }}</p>
       </div>
 
       <div class="stat-card">
-        <p class="stat-label">Estado de Conexión</p>
+        <p class="stat-label">{{ 'ADMIN.CONN_STATUS' | translate }}</p>
         <div class="status-row">
-          <span class="status-dot animate-ping"></span>
-          <p class="stat-value active-value">Activo (Mock)</p>
+          <span class="status-dot active animate-ping"></span>
+          <p class="stat-value active-value">{{ 'ADMIN.ACTIVE' | translate }}</p>
         </div>
       </div>
 
       <div class="stat-card">
-        <p class="stat-label">Token de Sesión</p>
+        <p class="stat-label">{{ 'ADMIN.TOKEN' | translate }}</p>
         <p class="token-value">{{ currentUser()?.token }}</p>
+      </div>
+    </div>
+
+    <!-- Widget de Progreso de Ventas -->
+    @if (config()) {
+      <div class="sold-progress-container admin-sold-progress">
+        <div class="sold-progress-header">
+          <span class="sold-label">{{ 'ADMIN.SOLD_LABEL' | translate }}</span>
+          <span class="sold-stats">
+            {{ config()!.soldNumbersCount | number }} / {{ config()!.totalNumbersQuantity | number }}
+            <strong class="sold-pct">{{ soldPercentage() }}%</strong>
+          </span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill admin-fill" [style.width.%]="soldPercentage()"></div>
+        </div>
+      </div>
+    }
+
+    <!-- Sección de Configuración de Precios y Paquetes -->
+    <div class="action-section" style="margin-bottom: 2rem;">
+      <h3 class="action-title admin-action-title">{{ 'ADMIN.CONFIG_TITLE' | translate }}</h3>
+      
+      <div class="config-form-container">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="totalQtyInput">{{ 'ADMIN.TOTAL_QTY_LABEL' | translate }}</label>
+            <input type="number" id="totalQtyInput" [(ngModel)]="totalQuantityInput" min="1" max="9999" step="1" placeholder="Ej. 1000" />
+            @if (rangeLabel()) {
+              <span class="range-badge">{{ 'ADMIN.RANGE_LABEL' | translate }}: {{ rangeLabel() }}</span>
+            }
+          </div>
+          <div class="form-field">
+            <label for="priceInput">{{ 'ADMIN.PRICE_LABEL' | translate }}</label>
+            <input type="number" id="priceInput" [(ngModel)]="priceInput" min="1" placeholder="Ej. 2500" />
+          </div>
+          <div class="form-field">
+            <label for="packagesInput">{{ 'ADMIN.PACKAGES_LABEL' | translate }}</label>
+            <input type="text" id="packagesInput" [(ngModel)]="packagesInput" placeholder="Ej. 5, 8, 20" />
+          </div>
+        </div>
+
+        @if (updateError()) {
+          <!-- El mensaje de error viene traducido del backend o se maneja en el componente -->
+          <p class="error-msg">{{ updateError() }}</p>
+        }
+        @if (updateSuccess()) {
+          <p class="success-msg">{{ 'ADMIN.SUCCESS' | translate }}</p>
+        }
+
+        <button class="btn-save" (click)="saveConfig()" [disabled]="isSaving()">
+          @if (isSaving()) { {{ 'ADMIN.SAVING' | translate }} } @else { {{ 'ADMIN.SAVE_BTN' | translate }} }
+        </button>
+      </div>
+
+      <!-- Previsualización en Tiempo Real -->
+      <div class="preview-section">
+        <p class="preview-title">{{ 'ADMIN.PREVIEW_TITLE' | translate }}</p>
+        <div class="preview-grid">
+          @for (pkg of previewPackages(); track pkg.quantity) {
+            <div class="preview-card">
+              <span class="preview-qty">{{ pkg.quantity }} {{ 'ADMIN.NUMBERS' | translate }}</span>
+              <span class="preview-total">{{ pkg.totalPrice | currency:'COP':'symbol-narrow':'1.0-0' }}</span>
+            </div>
+          } @empty {
+            <p class="empty-preview">{{ 'ADMIN.PREVIEW_EMPTY' | translate }}</p>
+          }
+        </div>
       </div>
     </div>
 
     <!-- Sección de Acciones -->
     <div class="action-section">
-      <h3 class="action-title admin-action-title">Acciones Administrativas</h3>
+      <h3 class="action-title admin-action-title">{{ 'ADMIN.ACTIONS_TITLE' | translate }}</h3>
       <div class="action-grid">
         <button class="action-btn">
-          <p class="action-btn-title">Crear Sorteo</p>
-          <p class="action-btn-desc">Generar nuevas rifas y configurar premios.</p>
+          <p class="action-btn-title">{{ 'ADMIN.ACTION1_TITLE' | translate }}</p>
+          <p class="action-btn-desc">{{ 'ADMIN.ACTION1_DESC' | translate }}</p>
         </button>
         <button class="action-btn">
-          <p class="action-btn-title">Ver Usuarios Registrados</p>
-          <p class="action-btn-desc">Lista completa de participantes e invitados.</p>
+          <p class="action-btn-title">{{ 'ADMIN.ACTION2_TITLE' | translate }}</p>
+          <p class="action-btn-desc">{{ 'ADMIN.ACTION2_DESC' | translate }}</p>
         </button>
       </div>
     </div>

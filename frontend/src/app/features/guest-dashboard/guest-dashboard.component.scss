@@ -128,8 +128,12 @@ $cyan-color:    #22d3ee;  // cyan-400
   gap: 1.5rem;
   margin-bottom: 2rem;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -169,6 +173,19 @@ $cyan-color:    #22d3ee;  // cyan-400
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.raffle-numbers-card {
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  background: rgba(16, 185, 129, 0.05) !important;
+}
+
+.range-info {
+  font-size: 0.7rem;
+  color: $guest-light;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  letter-spacing: 0.05em;
 }
 
 .status-row {
@@ -235,3 +252,162 @@ $cyan-color:    #22d3ee;  // cyan-400
     margin-top: 0.25rem;
   }
 }
+
+// --- Purchase and packages styles ---
+.sold-progress-container {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(147, 197, 253, 0.15);
+  border-radius: 0.75rem;
+
+  .sold-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+
+    .sold-label {
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .sold-stats {
+      font-family: monospace;
+      color: #e2e8f0;
+
+      .sold-pct {
+        color: $guest-light;
+        margin-left: 0.5rem;
+        font-weight: bold;
+        font-family: inherit;
+      }
+    }
+  }
+
+  .progress-track {
+    height: 0.75rem;
+    background: #1e293b;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, $guest-light, $cyan-color);
+    border-radius: 9999px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.error-banner {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-banner {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #a7f3d0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.package-buy-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $guest-light;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .package-qty {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .package-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    background: linear-gradient(to right, white, $guest-light);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .package-info-price {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+}
+
+.btn-buy {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(to right, $guest-primary, $cyan-color);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.empty-packages {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

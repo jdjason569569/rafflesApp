@@ -7,9 +7,9 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <div class="brand-logo guest">G</div>
-      <span class="brand-title">Guest Portal</span>
+      <span class="brand-title">{{ 'GUEST.TITLE' | translate }}</span>
     </div>
-    <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    <button class="btn-logout" (click)="logout()">{{ 'GUEST.LOGOUT' | translate }}</button>
   </nav>
 
   <!-- Contenido Principal -->
@@ -17,45 +17,115 @@
 
     <!-- Encabezado de bienvenida -->
     <div class="welcome-header">
-      <p class="section-tag guest-tag">Modo Lectura Público</p>
-      <h1>Hola, {{ currentUser()?.username }} 👋</h1>
+      <p class="section-tag guest-tag">{{ 'GUEST.TAG' | translate }}</p>
+      <h1>{{ 'LOGIN.WELCOME' | translate }}, {{ currentUser()?.username }} 👋</h1>
       <p class="welcome-desc">
-        Tienes acceso limitado a los paneles de visualización del sistema. Algunas acciones están restringidas.
+        {{ 'GUEST.SUBTITLE' | translate }}
       </p>
     </div>
 
     <!-- Rejilla de tarjetas de estado -->
     <div class="stats-grid">
       <div class="stat-card">
-        <p class="stat-label">Rol Asignado</p>
+        <p class="stat-label">{{ 'GUEST.ROLE' | translate }}</p>
         <p class="stat-value guest-value">{{ currentUser()?.role }}</p>
       </div>
 
       <div class="stat-card">
-        <p class="stat-label">Estado de Conexión</p>
+        <p class="stat-label">{{ 'GUEST.CONN_STATUS' | translate }}</p>
         <div class="status-row">
           <span class="status-dot"></span>
-          <p class="stat-value active-value">Activo (Mock)</p>
+          <p class="stat-value active-value">{{ 'GUEST.ACTIVE' | translate }}</p>
         </div>
       </div>
 
+      <div class="stat-card raffle-numbers-card">
+        <p class="stat-label">{{ 'GUEST.RAFFLE_NUMBERS' | translate }}</p>
+        @if (config()) {
+          <p class="stat-value guest-value">{{ config()!.totalNumbersQuantity | number }}</p>
+          <p class="range-info">{{ 'GUEST.NUMBER_RANGE' | translate }}: 0001 – {{ config()!.totalNumbersQuantity | number:'4.0-0' }}</p>
+        } @else {
+          <p class="stat-value">–</p>
+        }
+      </div>
+
       <div class="stat-card">
-        <p class="stat-label">Token de Sesión</p>
+        <p class="stat-label">{{ 'GUEST.TOKEN' | translate }}</p>
         <p class="token-value">{{ currentUser()?.token }}</p>
+      </div>
+    </div>
+
+    <!-- Sección de Compra de Paquetes -->
+    <div class="action-section" style="margin-bottom: 2rem;">
+      <h3 class="action-title guest-action-title">{{ 'GUEST.BUY_TITLE' | translate }}</h3>
+      <p class="section-tag guest-tag">{{ 'GUEST.PRICE_PER_NUMBER' | translate }}: {{ config()?.pricePerNumber | currency:(config()?.currency || 'COP'):'symbol-narrow':'1.0-0' }}</p>
+
+      <!-- Barra de Progreso de Números Vendidos -->
+      @if (config()) {
+        <div class="sold-progress-container">
+          <div class="sold-progress-header">
+            <span class="sold-label">{{ 'GUEST.SOLD_LABEL' | translate }}</span>
+            <span class="sold-stats">
+              {{ config()!.soldNumbersCount | number }} / {{ config()!.totalNumbersQuantity | number }}
+              <strong class="sold-pct">{{ soldPercentage() }}%</strong>
+            </span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" [style.width.%]="soldPercentage()"></div>
+          </div>
+        </div>
+      }
+
+      @if (purchaseSuccess()) {
+        <div class="success-banner">
+          {{ purchaseSuccess() }}
+        </div>
+      }
+      @if (purchaseError()) {
+        <div class="error-banner">
+          {{ purchaseError() }}
+        </div>
+      }
+
+      <div class="packages-grid">
+        @for (pkg of packages(); track pkg.quantity) {
+          <div class="package-buy-card">
+            <div class="package-qty">{{ pkg.quantity }} {{ 'GUEST.NUMBERS' | translate }}</div>
+            <div class="package-price">{{ pkg.totalPrice | currency:pkg.currency:'symbol-narrow':'1.0-0' }}</div>
+            <p class="package-info-price">
+              {{ 'GUEST.EQUIVALENT' | translate:{ price: (pkg.pricePerNumber | currency:pkg.currency:'symbol-narrow':'1.0-0') } }}
+            </p>
+            <button 
+              class="btn-buy" 
+              (click)="buyPackage(pkg.quantity)"
+              [disabled]="isPurchasing() !== null"
+            >
+              @if (isPurchasing() === pkg.quantity) {
+                {{ 'GUEST.BUYING' | translate }}
+              } @else {
+                {{ 'GUEST.BUY_BTN' | translate }}
+              }
+            </button>
+          </div>
+        } @empty {
+          <div class="empty-packages">
+            {{ 'GUEST.LOADING_PACKAGES' | translate }}
+          </div>
+        }
       </div>
     </div>
 
     <!-- Info Card de Visualización -->
     <div class="action-section">
-      <h3 class="action-title guest-action-title">Paneles Informativos</h3>
+      <h3 class="action-title guest-action-title">{{ 'GUEST.INFO_TITLE' | translate }}</h3>
       <div class="info-card">
         <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         <div>
-          <p class="info-title">Acceso de Invitado Activo</p>
+          <p class="info-title">{{ 'GUEST.INFO1_TITLE' | translate }}</p>
           <p class="info-desc">
-            Puedes navegar por el sitio y ver sorteos activos, pero no tienes permisos para crear, editar o eliminar elementos de la base de datos. Si requieres más permisos, contacta al administrador.
+            {{ 'GUEST.INFO1_DESC' | translate }}
           </p>
         </div>
       </div>
