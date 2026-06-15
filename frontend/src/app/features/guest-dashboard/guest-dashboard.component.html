@@ -130,8 +130,18 @@
 
         <div class="packages-grid">
           @for (pkg of packages(); track pkg.quantity) {
-            <div class="package-buy-card">
+            <div class="package-buy-card" [class.has-discount]="pkg.discountPercent > 0">
+              @if (pkg.discountPercent > 0) {
+                <div class="discount-badge">
+                  {{ 'GUEST.DISCOUNT_BADGE' | translate:{ pct: pkg.discountPercent } }}
+                </div>
+              }
               <div class="package-qty">{{ pkg.quantity }} {{ 'GUEST.NUMBERS' | translate }}</div>
+              @if (pkg.discountPercent > 0) {
+                <div class="package-original-price">
+                  {{ pkg.originalPrice | currency:pkg.currency:'symbol-narrow':'1.0-0' }}
+                </div>
+              }
               <div class="package-price">{{ pkg.totalPrice | currency:pkg.currency:'symbol-narrow':'1.0-0' }}</div>
               <p class="package-info-price">
                 {{ 'GUEST.EQUIVALENT' | translate:{ price: (pkg.pricePerNumber | currency:pkg.currency:'symbol-narrow':'1.0-0') } }}

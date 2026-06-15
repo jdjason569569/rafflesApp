@@ -348,17 +348,44 @@ $cyan-color:    #22d3ee;  // cyan-400
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+
+  &.has-discount {
+    border-color: rgba(34, 211, 238, 0.2);
+    background: rgba(30, 41, 59, 0.55);
+  }
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(34, 211, 238, 0.3);
-    box-shadow: 0 10px 20px -10px rgba(34, 211, 238, 0.15);
+    border-color: rgba(34, 211, 238, 0.35);
+    box-shadow: 0 10px 20px -10px rgba(34, 211, 238, 0.2);
+  }
+
+  .discount-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, #10b981, $cyan-color);
+    color: #0f172a;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0 0.75rem 0 0.5rem;
   }
 
   .package-qty {
     font-size: 1.25rem;
     font-weight: 700;
     color: white;
+  }
+
+  .package-original-price {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-decoration: line-through;
   }
 
   .package-price {

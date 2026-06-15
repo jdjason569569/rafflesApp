@@ -24,12 +24,28 @@ export class ConfigService {
     const currentConfig = this._config();
     if (!currentConfig) return [];
 
-    return currentConfig.packages.map((quantity) => ({
-      quantity,
-      totalPrice: quantity * currentConfig.pricePerNumber,
-      pricePerNumber: currentConfig.pricePerNumber,
-      currency: currentConfig.currency,
-    }));
+    const getDiscountRate = (qty: number): number => {
+      if (qty >= 20) return 0.25; // 25%
+      if (qty >= 8) return 0.15;  // 15%
+      if (qty >= 5) return 0.10;  // 10%
+      return 0.0;
+    };
+
+    return currentConfig.packages.map((quantity) => {
+      const discount = getDiscountRate(quantity);
+      const originalPrice = quantity * currentConfig.pricePerNumber;
+      const totalPrice = Math.round(originalPrice * (1 - discount));
+      const pricePerNumber = Math.round(totalPrice / quantity);
+
+      return {
+        quantity,
+        originalPrice,
+        totalPrice,
+        pricePerNumber,
+        discountPercent: Math.round(discount * 100),
+        currency: currentConfig.currency,
+      };
+    });
   });
 
   /** Porcentaje de números vendidos sobre el total (0–100) */

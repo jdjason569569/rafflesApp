@@ -60,6 +60,8 @@
     "PRICE_PER_NUMBER": "Price per number",
     "SOLD_LABEL": "Sales Progress",
     "EQUIVALENT": "Equivalent to {{price}} each",
+    "DISCOUNT_BADGE": "-{{pct}}% off",
+    "ORIGINAL_PRICE": "Was: {{price}}",
     "BUY_BTN": "Acquire Package",
     "BUYING": "Processing...",
     "SUCCESS": "Purchase successful! You have acquired the package of {{quantity}} numbers.",

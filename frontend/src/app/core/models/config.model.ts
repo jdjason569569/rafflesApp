@@ -12,7 +12,9 @@ export interface SystemConfig {
 export interface PackageOption {
   quantity: number;
   totalPrice: number;
+  originalPrice: number;
   pricePerNumber: number;
+  discountPercent: number;
   currency: string;
 }
 
